@@ -5,64 +5,194 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Session 41: Props, map, if and ternary</title>
 
-  <!-- React + ReactDOM + Babel (so JSX runs directly in the browser) -->
+  <!-- React, ReactDOM and Babel -->
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+    }
+
+    .App {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 20px 24px;
+    }
+
+    /* Header */
+    .header { text-align: center; margin-bottom: 40px; }
+    .header h1 {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      background: linear-gradient(90deg, #38bdf8, #a78bfa);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .header p { color: #94a3b8; margin-top: 8px; }
+
+    /* Columns */
+    .columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+    }
+
+    .column {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 16px;
+      padding: 22px;
+    }
+
+    .column h3 {
+      font-size: 1.1rem;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .column h3 code {
+      background: #0f172a;
+      color: #38bdf8;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    .list { display: flex; flex-direction: column; gap: 14px; }
+
+    /* Card */
+    .card {
+      background: #0f172a;
+      border-radius: 12px;
+      padding: 16px 18px;
+      border-left: 6px solid var(--c);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+    }
+    .card h2 { font-size: 1.1rem; margin-bottom: 8px; }
+    .card .color-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #cbd5e1;
+      font-size: 0.95rem;
+    }
+    .dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--c);
+      border: 2px solid #475569;
+    }
+    .card h5 {
+      margin-top: 10px;
+      display: inline-block;
+      background: #334155;
+      color: #e2e8f0;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    /* Messages */
+    .msg {
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .msg.hi {
+      background: rgba(34, 197, 94, 0.12);
+      color: #4ade80;
+      border: 1px dashed #22c55e;
+    }
+    .msg.out {
+      background: rgba(239, 68, 68, 0.12);
+      color: #f87171;
+      border: 1px dashed #ef4444;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      color: #64748b;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #1e293b;
+    }
+  </style>
 </head>
 <body>
   <div id="root"></div>
 
   <script type="text/babel">
-    // ================= Cart Component =================
-    // Receives the whole array as one prop: allData
+    // Cart component
     function Cart({ allData }) {
-      // Part 1: if / else inside map
+      // if / else
       const withIfElse = allData.map(function (result) {
         if (result.id > 2) {
           return (
-            <div key={result.id}>
+            <div key={result.id} className="card" style={{ "--c": result.color }}>
               <h2>My Name is {result.firstName} {result.lastName}</h2>
-              <h2>My color is {result.color}</h2>
+              <div className="color-row">
+                <span className="dot"></span>
+                My color is {result.color}
+              </div>
               <h5>My id is {result.id}</h5>
-              <hr />
             </div>
           );
         } else if (result.id === 1) {
-          return <h1 key={result.id}>Hii</h1>;
+          return <h1 key={result.id} className="msg hi">Hii 👋</h1>;
         } else {
-          return <h1 key={result.id}>Not In Range</h1>;
+          return <h1 key={result.id} className="msg out">Not In Range</h1>;
         }
       });
 
-      // Part 2: same logic with nested ternary
+      // ternary
       const withTernary = allData.map(function (result) {
         return result.id > 2 ? (
-          <div key={result.id}>
+          <div key={result.id} className="card" style={{ "--c": result.color }}>
             <h2>My Name is {result.firstName} {result.lastName}</h2>
-            <h2>My color is {result.color}</h2>
+            <div className="color-row">
+              <span className="dot"></span>
+              My color is {result.color}
+            </div>
             <h5>My id is {result.id}</h5>
-            <hr />
           </div>
         ) : result.id === 1 ? (
-          <h1 key={result.id}>Hii</h1>
+          <h1 key={result.id} className="msg hi">Hii 👋</h1>
         ) : (
-          <h1 key={result.id}>Not In Range</h1>
+          <h1 key={result.id} className="msg out">Not In Range</h1>
         );
       });
 
       return (
-        <section>
-          <h3>Using if / else</h3>
-          {withIfElse}
-          <h3>Using ternary</h3>
-          {withTernary}
+        <section className="columns">
+          <div className="column">
+            <h3><code>if / else</code> Using if / else</h3>
+            <div className="list">{withIfElse}</div>
+          </div>
+          <div className="column">
+            <h3><code>? :</code> Using ternary</h3>
+            <div className="list">{withTernary}</div>
+          </div>
         </section>
       );
     }
 
-    // ================= App Component =================
-    // Plain JS goes before the return
+    // Data
     const allData = [
       { id: 1, firstName: "Fares", lastName: "Ahmed", color: "black" },
       { id: 2, firstName: "Zaki", lastName: "Ali", color: "red" },
@@ -71,17 +201,20 @@
       { id: 5, firstName: "Fouad", lastName: "Saeed", color: "yellow" },
     ];
 
+    // App component
     function App() {
       return (
         <div className="App">
-          <h1>Session 41: Props, map, if and ternary</h1>
+          <header className="header">
+            <h1>Session 41: Props, map, if and ternary</h1>
+            <p>Same data, same rule, rendered two ways</p>
+          </header>
           <Cart allData={allData} />
           <footer>Footer</footer>
         </div>
       );
     }
 
-    // ================= Render =================
     ReactDOM.createRoot(document.getElementById("root")).render(<App />);
   </script>
 </body>
