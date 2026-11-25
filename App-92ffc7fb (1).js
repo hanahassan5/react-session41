@@ -1,12 +1,12 @@
 import Cart from "./Cart";
 
-// Plain JS goes before the return
+
 const allData = [
-  { id: 1, firstName: "فارس", lastName: "أحمد", color: "black" },
-  { id: 2, firstName: "زكي", lastName: "علي", color: "red" },
-  { id: 3, firstName: "مريم", lastName: "حسن", color: "blue" },
-  { id: 4, firstName: "كريم", lastName: "محمود", color: "green" },
-  { id: 5, firstName: "فؤاد", lastName: "سعيد", color: "yellow" },
+  { id: 1, firstName: "Fares", lastName: "Ahmed", color: "black" },
+  { id: 2, firstName: "Zaki", lastName: "Ali", color: "red" },
+  { id: 3, firstName: "Mariam", lastName: "Hassan", color: "blue" },
+  { id: 4, firstName: "Karim", lastName: "Mahmoud", color: "green" },
+  { id: 5, firstName: "Fouad", lastName: "Saeed", color: "yellow" },
 ];
 
 function App() {
