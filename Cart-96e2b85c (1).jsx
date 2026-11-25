@@ -1,8 +1,7 @@
 import React from "react";
 
-// Receives the whole array as one prop: allData
 function Cart({ allData }) {
-  // Part 1: if / else inside map
+  
   const withIfElse = allData.map(function (result) {
     if (result.id > 2) {
       return (
@@ -20,7 +19,6 @@ function Cart({ allData }) {
     }
   });
 
-  // Part 2: same logic with nested ternary
   const withTernary = allData.map(function (result) {
     return result.id > 2 ? (
       <div key={result.id}>
